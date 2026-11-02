@@ -119,7 +119,7 @@ float tail = 0.0f;
 float dogPosX , dogPosY , dogPosZ  ;
 
 #define MAX_FRAMES 9
-int i_max_steps = 190;
+int i_max_steps = 1500; // Velocidad de la animación
 int i_curr_steps = 0;
 typedef struct _frame {
 	
@@ -485,97 +485,80 @@ int main()
 // Moves/alters the camera positions based on user input
 void DoMovement()
 {
-	//Dog Controls
-	
+	// Define la velocidad de movimiento y rotación
+	float moveSpeed = 2.0f * deltaTime;
+	float rotSpeed = 50.0f * deltaTime;
+	float lightSpeed = 2.0f * deltaTime;
+
+	// Dog Controls
 	if (keys[GLFW_KEY_2])
 	{
-		
-			rotDog += 1.0f;
-
+		rotDog += rotSpeed;
 	}
-
 	if (keys[GLFW_KEY_3])
 	{
-		
-			rotDog -= 1.0f;
-
+		rotDog -= rotSpeed;
 	}
-			
 	if (keys[GLFW_KEY_H])
 	{
-		dogPosZ += 0.01;
+		dogPosZ += moveSpeed;
 	}
-
 	if (keys[GLFW_KEY_Y])
 	{
-		dogPosZ -= 0.01;
+		dogPosZ -= moveSpeed;
 	}
-
 	if (keys[GLFW_KEY_G])
 	{
-		dogPosX -= 0.01;
+		dogPosX -= moveSpeed;
 	}
-
 	if (keys[GLFW_KEY_J])
 	{
-		dogPosX += 0.01;
+		dogPosX += moveSpeed;
 	}
 
 	// Camera controls
 	if (keys[GLFW_KEY_W] || keys[GLFW_KEY_UP])
 	{
 		camera.ProcessKeyboard(FORWARD, deltaTime);
-
 	}
-
 	if (keys[GLFW_KEY_S] || keys[GLFW_KEY_DOWN])
 	{
 		camera.ProcessKeyboard(BACKWARD, deltaTime);
-
-
 	}
-
 	if (keys[GLFW_KEY_A] || keys[GLFW_KEY_LEFT])
 	{
 		camera.ProcessKeyboard(LEFT, deltaTime);
-
-
 	}
-
 	if (keys[GLFW_KEY_D] || keys[GLFW_KEY_RIGHT])
 	{
 		camera.ProcessKeyboard(RIGHT, deltaTime);
-
-
 	}
 
+	// Light controls
 	if (keys[GLFW_KEY_T])
 	{
-		pointLightPositions[0].x += 0.01f;
+		pointLightPositions[0].x += lightSpeed;
 	}
-	if (keys[GLFW_KEY_G])
+	if (keys[GLFW_KEY_G]) 
 	{
-		pointLightPositions[0].x -= 0.01f;
+		pointLightPositions[0].x -= lightSpeed;
 	}
-
 	if (keys[GLFW_KEY_Y])
 	{
-		pointLightPositions[0].y += 0.01f;
+		pointLightPositions[0].y += lightSpeed;
 	}
-
-	if (keys[GLFW_KEY_H])
+	if (keys[GLFW_KEY_H]) 
 	{
-		pointLightPositions[0].y -= 0.01f;
+		pointLightPositions[0].y -= lightSpeed;
 	}
 	if (keys[GLFW_KEY_U])
 	{
-		pointLightPositions[0].z -= 0.1f;
+		pointLightPositions[0].z -= lightSpeed;
 	}
 	if (keys[GLFW_KEY_J])
 	{
-		pointLightPositions[0].z += 0.01f;
+		pointLightPositions[0].z += lightSpeed;
 	}
-	
 }
 
 // Is called whenever a key is pressed/released via GLFW
