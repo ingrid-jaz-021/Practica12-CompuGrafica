@@ -607,7 +607,7 @@ void DoMovement()
 	{
 		rotBR -= rotSpeed;
 	}
-	// Pierna Der Trasera
+	// Inclinacion del torso
 	if (keys[GLFW_KEY_1])
 	{
 		rotDogX += rotSpeed;
