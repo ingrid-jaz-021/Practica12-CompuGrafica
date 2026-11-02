@@ -108,8 +108,12 @@ glm::vec3 Light1 = glm::vec3(0);
 float rotBall = 0.0f;
 float rotDog = 0.0f;
 int dogAnim = 0;
-float FLegs = 0.0f;
-float RLegs = 0.0f;
+//float FLegs = 0.0f;
+//float RLegs = 0.0f;
+float rotFL = 0.0f; // Pierna Delantera Izquierda
+float rotFR = 0.0f; // Pierna Delantera Derecha
+float rotBL = 0.0f; // Pierna Trasera Izquierda
+float rotBR = 0.0f; // Pierna Trasera Derecha
 float head = 0.0f;
 float tail = 0.0f;
 
@@ -136,6 +140,8 @@ typedef struct _frame {
 	float headInc;
 	float tail; // Movimiento de la cola
 	float tailInc;
+	float rotFL; // Movimiento de la pierna izq delantera
+	float rotFLInc;
 
 }FRAME;
 
@@ -157,6 +163,7 @@ void saveFrame(void)
 	// 2. Se guarda las variables en el sistema
 	KeyFrame[FrameIndex].head = head;
 	KeyFrame[FrameIndex].tail = tail;
+	KeyFrame[FrameIndex].rotFL = rotFL;
 
 
 	FrameIndex++;
@@ -173,6 +180,7 @@ void resetElements(void)
 	// 3. Se inicializa
 	head = KeyFrame[0].head;
 	tail = KeyFrame[0].tail;
+	rotFL = KeyFrame[0].rotFL;
 
 }
 void interpolation(void)
@@ -184,6 +192,8 @@ void interpolation(void)
 	// 4. Calcular la interpolación de la variable
 	KeyFrame[playIndex].headInc = (KeyFrame[playIndex + 1].head - KeyFrame[playIndex].head) / i_max_steps;
 	KeyFrame[playIndex].tailInc = (KeyFrame[playIndex + 1].tail - KeyFrame[playIndex].tail) / i_max_steps;
+	KeyFrame[playIndex].rotFLInc = (KeyFrame[playIndex + 1].rotFL - KeyFrame[playIndex].rotFL) / i_max_steps;
+
 
 
 	KeyFrame[playIndex].rotDogInc = (KeyFrame[playIndex + 1].rotDog - KeyFrame[playIndex].rotDog) / i_max_steps;
@@ -275,6 +285,8 @@ int main()
 		KeyFrame[i].headInc = 0;
 		KeyFrame[i].tail = 0;
 		KeyFrame[i].tailInc = 0;
+		KeyFrame[i].rotFL = 0;
+		KeyFrame[i].rotFLInc = 0;
 	}
 
 
@@ -426,27 +438,27 @@ int main()
 		//Front Left Leg
 		model = modelTemp;
 		model = glm::translate(model, glm::vec3(0.112f, -0.044f, 0.074f));
-		model = glm::rotate(model, glm::radians(FLegs), glm::vec3(-1.0f, 0.0f, 0.0f)); 
+		model = glm::rotate(model, glm::radians(rotFL), glm::vec3(-1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		F_LeftLeg.Draw(lightingShader);
 		//Front Right Leg
-		model = modelTemp; 
+		model = modelTemp;
 		model = glm::translate(model, glm::vec3(-0.111f, -0.055f, 0.074f));
-		model = glm::rotate(model, glm::radians(FLegs), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(rotFR), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		F_RightLeg.Draw(lightingShader);
 		//Back Left Leg
-		model = modelTemp; 
-		model = glm::translate(model, glm::vec3(0.082f, -0.046, -0.218)); 
-		model = glm::rotate(model, glm::radians(RLegs), glm::vec3(1.0f, 0.0f, 0.0f)); 
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)); 
+		model = modelTemp;
+		model = glm::translate(model, glm::vec3(0.082f, -0.046, -0.218));
+		model = glm::rotate(model, glm::radians(rotBL), glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		B_LeftLeg.Draw(lightingShader);
 		//Back Right Leg
-		model = modelTemp; 
+		model = modelTemp;
 		model = glm::translate(model, glm::vec3(-0.083f, -0.057f, -0.231f));
-		model = glm::rotate(model, glm::radians(RLegs), glm::vec3(-1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(rotBR), glm::vec3(-1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		B_RightLeg.Draw(lightingShader); 
+		B_RightLeg.Draw(lightingShader);
 
 
 		model = glm::mat4(1);
@@ -530,6 +542,15 @@ void DoMovement()
 	if (keys[GLFW_KEY_7])
 	{
 		tail -= rotSpeed;
+	}
+	// Pierna Izq Delantera
+	if (keys[GLFW_KEY_Z])
+	{
+		rotFL += rotSpeed;
+	}
+	if (keys[GLFW_KEY_X])
+	{
+		rotFL -= rotSpeed;
 	}
 
 	if (keys[GLFW_KEY_2])
@@ -699,6 +720,7 @@ void Animation() {
 			// 7. Agregar la animación de cada parte del perro
 			head += KeyFrame[playIndex].headInc;
 			tail += KeyFrame[playIndex].tailInc;
+			rotFL += KeyFrame[playIndex].rotFLInc;
 
 			rotDog += KeyFrame[playIndex].rotDogInc;
 
