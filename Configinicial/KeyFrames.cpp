@@ -146,6 +146,8 @@ typedef struct _frame {
 	float rotFRInc;
 	float rotBL; // Movimiento de la pierna izq trasera
 	float rotBLInc;
+	float rotBR; // Movimiento de la pierna der trasera
+	float rotBRInc;
 
 }FRAME;
 
@@ -170,6 +172,7 @@ void saveFrame(void)
 	KeyFrame[FrameIndex].rotFL = rotFL;
 	KeyFrame[FrameIndex].rotFR = rotFR;
 	KeyFrame[FrameIndex].rotBL = rotBL;
+	KeyFrame[FrameIndex].rotBR = rotBR;
 
 	FrameIndex++;
 }
@@ -188,6 +191,7 @@ void resetElements(void)
 	rotFL = KeyFrame[0].rotFL;
 	rotFR = KeyFrame[0].rotFR;
 	rotBL = KeyFrame[0].rotBL;
+	rotBR = KeyFrame[0].rotBR;
 
 }
 void interpolation(void)
@@ -202,7 +206,7 @@ void interpolation(void)
 	KeyFrame[playIndex].rotFLInc = (KeyFrame[playIndex + 1].rotFL - KeyFrame[playIndex].rotFL) / i_max_steps;
 	KeyFrame[playIndex].rotFRInc = (KeyFrame[playIndex + 1].rotFR - KeyFrame[playIndex].rotFR) / i_max_steps;
 	KeyFrame[playIndex].rotBLInc = (KeyFrame[playIndex + 1].rotBL - KeyFrame[playIndex].rotBL) / i_max_steps;
-
+	KeyFrame[playIndex].rotBRInc = (KeyFrame[playIndex + 1].rotBR - KeyFrame[playIndex].rotBR) / i_max_steps;
 
 	KeyFrame[playIndex].rotDogInc = (KeyFrame[playIndex + 1].rotDog - KeyFrame[playIndex].rotDog) / i_max_steps;
 
@@ -299,6 +303,8 @@ int main()
 		KeyFrame[i].rotFRInc = 0;
 		KeyFrame[i].rotBL = 0;
 		KeyFrame[i].rotBLInc = 0;
+		KeyFrame[i].rotBR = 0;
+		KeyFrame[i].rotBRInc = 0;
 	}
 
 
@@ -582,6 +588,15 @@ void DoMovement()
 	{
 		rotBL -= rotSpeed;
 	}
+	// Pierna Der Trasera
+	if (keys[GLFW_KEY_8])
+	{
+		rotBR += rotSpeed;
+	}
+	if (keys[GLFW_KEY_9])
+	{
+		rotBR -= rotSpeed;
+	}
 
 	if (keys[GLFW_KEY_2])
 	{
@@ -753,6 +768,7 @@ void Animation() {
 			rotFL += KeyFrame[playIndex].rotFLInc;
 			rotFR += KeyFrame[playIndex].rotFRInc;
 			rotBL += KeyFrame[playIndex].rotBLInc;
+			rotBR += KeyFrame[playIndex].rotBRInc;
 
 			rotDog += KeyFrame[playIndex].rotDogInc;
 
