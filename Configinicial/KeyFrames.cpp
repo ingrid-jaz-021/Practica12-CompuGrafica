@@ -142,6 +142,10 @@ typedef struct _frame {
 	float tailInc;
 	float rotFL; // Movimiento de la pierna izq delantera
 	float rotFLInc;
+	float rotFR; // Movimiento de la pierna der delantera
+	float rotFRInc;
+	float rotBL; // Movimiento de la pierna izq trasera
+	float rotBLInc;
 
 }FRAME;
 
@@ -164,7 +168,8 @@ void saveFrame(void)
 	KeyFrame[FrameIndex].head = head;
 	KeyFrame[FrameIndex].tail = tail;
 	KeyFrame[FrameIndex].rotFL = rotFL;
-
+	KeyFrame[FrameIndex].rotFR = rotFR;
+	KeyFrame[FrameIndex].rotBL = rotBL;
 
 	FrameIndex++;
 }
@@ -181,6 +186,8 @@ void resetElements(void)
 	head = KeyFrame[0].head;
 	tail = KeyFrame[0].tail;
 	rotFL = KeyFrame[0].rotFL;
+	rotFR = KeyFrame[0].rotFR;
+	rotBL = KeyFrame[0].rotBL;
 
 }
 void interpolation(void)
@@ -193,7 +200,8 @@ void interpolation(void)
 	KeyFrame[playIndex].headInc = (KeyFrame[playIndex + 1].head - KeyFrame[playIndex].head) / i_max_steps;
 	KeyFrame[playIndex].tailInc = (KeyFrame[playIndex + 1].tail - KeyFrame[playIndex].tail) / i_max_steps;
 	KeyFrame[playIndex].rotFLInc = (KeyFrame[playIndex + 1].rotFL - KeyFrame[playIndex].rotFL) / i_max_steps;
-
+	KeyFrame[playIndex].rotFRInc = (KeyFrame[playIndex + 1].rotFR - KeyFrame[playIndex].rotFR) / i_max_steps;
+	KeyFrame[playIndex].rotBLInc = (KeyFrame[playIndex + 1].rotBL - KeyFrame[playIndex].rotBL) / i_max_steps;
 
 
 	KeyFrame[playIndex].rotDogInc = (KeyFrame[playIndex + 1].rotDog - KeyFrame[playIndex].rotDog) / i_max_steps;
@@ -287,6 +295,10 @@ int main()
 		KeyFrame[i].tailInc = 0;
 		KeyFrame[i].rotFL = 0;
 		KeyFrame[i].rotFLInc = 0;
+		KeyFrame[i].rotFR = 0;
+		KeyFrame[i].rotFRInc = 0;
+		KeyFrame[i].rotBL = 0;
+		KeyFrame[i].rotBLInc = 0;
 	}
 
 
@@ -552,6 +564,24 @@ void DoMovement()
 	{
 		rotFL -= rotSpeed;
 	}
+	// Pierna Der Delantera
+	if (keys[GLFW_KEY_C])
+	{
+		rotFR += rotSpeed;
+	}
+	if (keys[GLFW_KEY_V])
+	{
+		rotFR -= rotSpeed;
+	}
+	// Pierna Izq Trasera
+	if (keys[GLFW_KEY_B])
+	{
+		rotBL += rotSpeed;
+	}
+	if (keys[GLFW_KEY_N])
+	{
+		rotBL -= rotSpeed;
+	}
 
 	if (keys[GLFW_KEY_2])
 	{
@@ -721,6 +751,8 @@ void Animation() {
 			head += KeyFrame[playIndex].headInc;
 			tail += KeyFrame[playIndex].tailInc;
 			rotFL += KeyFrame[playIndex].rotFLInc;
+			rotFR += KeyFrame[playIndex].rotFRInc;
+			rotBL += KeyFrame[playIndex].rotBLInc;
 
 			rotDog += KeyFrame[playIndex].rotDogInc;
 
