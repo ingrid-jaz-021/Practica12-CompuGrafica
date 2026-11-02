@@ -116,6 +116,7 @@ float rotBL = 0.0f; // Pierna Trasera Izquierda
 float rotBR = 0.0f; // Pierna Trasera Derecha
 float head = 0.0f;
 float tail = 0.0f;
+float rotDogX = 0.0f; // Inclinación vertical del torso
 
 
 
@@ -148,6 +149,8 @@ typedef struct _frame {
 	float rotBLInc;
 	float rotBR; // Movimiento de la pierna der trasera
 	float rotBRInc;
+	float rotDogX; // Inclinación del torso
+	float rotDogXInc;
 
 }FRAME;
 
@@ -173,6 +176,7 @@ void saveFrame(void)
 	KeyFrame[FrameIndex].rotFR = rotFR;
 	KeyFrame[FrameIndex].rotBL = rotBL;
 	KeyFrame[FrameIndex].rotBR = rotBR;
+	KeyFrame[FrameIndex].rotDogX = rotDogX;
 
 	FrameIndex++;
 }
@@ -192,6 +196,7 @@ void resetElements(void)
 	rotFR = KeyFrame[0].rotFR;
 	rotBL = KeyFrame[0].rotBL;
 	rotBR = KeyFrame[0].rotBR;
+	rotDogX = KeyFrame[0].rotDogX;
 
 }
 void interpolation(void)
@@ -207,6 +212,7 @@ void interpolation(void)
 	KeyFrame[playIndex].rotFRInc = (KeyFrame[playIndex + 1].rotFR - KeyFrame[playIndex].rotFR) / i_max_steps;
 	KeyFrame[playIndex].rotBLInc = (KeyFrame[playIndex + 1].rotBL - KeyFrame[playIndex].rotBL) / i_max_steps;
 	KeyFrame[playIndex].rotBRInc = (KeyFrame[playIndex + 1].rotBR - KeyFrame[playIndex].rotBR) / i_max_steps;
+	KeyFrame[playIndex].rotDogXInc = (KeyFrame[playIndex + 1].rotDogX - KeyFrame[playIndex].rotDogX) / i_max_steps;
 
 	KeyFrame[playIndex].rotDogInc = (KeyFrame[playIndex + 1].rotDog - KeyFrame[playIndex].rotDog) / i_max_steps;
 
@@ -305,6 +311,8 @@ int main()
 		KeyFrame[i].rotBLInc = 0;
 		KeyFrame[i].rotBR = 0;
 		KeyFrame[i].rotBRInc = 0;
+		KeyFrame[i].rotDogX = 0;
+		KeyFrame[i].rotDogXInc = 0;
 	}
 
 
@@ -438,7 +446,9 @@ int main()
 		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
 		//Body
 		modelTemp= model = glm::translate(model, glm::vec3(dogPosX,dogPosY,dogPosZ));
-		modelTemp= model = glm::rotate(model, glm::radians(rotDog), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelTemp = model = glm::rotate(model, glm::radians(rotDog), glm::vec3(0.0f, 1.0f, 0.0f));
+		// Rotación vertical (X) para inclinar todo el perro hacia atrás
+		modelTemp = model = glm::rotate(model, glm::radians(rotDogX), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		DogBody.Draw(lightingShader);
 		//Head
@@ -596,6 +606,24 @@ void DoMovement()
 	if (keys[GLFW_KEY_9])
 	{
 		rotBR -= rotSpeed;
+	}
+	// Pierna Der Trasera
+	if (keys[GLFW_KEY_1])
+	{
+		rotDogX += rotSpeed;
+	}
+	if (keys[GLFW_KEY_0])
+	{
+		rotDogX -= rotSpeed;
+	}
+	// Mover al perro en Y (Arriba/Abajo)
+	if (keys[GLFW_KEY_I])
+	{
+		dogPosY += moveSpeed;
+	}
+	if (keys[GLFW_KEY_U])
+	{
+		dogPosY -= moveSpeed;
 	}
 
 	if (keys[GLFW_KEY_2])
@@ -769,6 +797,7 @@ void Animation() {
 			rotFR += KeyFrame[playIndex].rotFRInc;
 			rotBL += KeyFrame[playIndex].rotBLInc;
 			rotBR += KeyFrame[playIndex].rotBRInc;
+			rotDogX += KeyFrame[playIndex].rotDogXInc;
 
 			rotDog += KeyFrame[playIndex].rotDogInc;
 
