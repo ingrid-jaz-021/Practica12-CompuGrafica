@@ -131,8 +131,11 @@ typedef struct _frame {
 	float incX;
 	float incY;
 	float incZ;
-	float head; // Para movimiento de la cabeza
+	// 1. Se agregan las variables para cada parte del perro
+	float head; // Movimiento de la cabeza
 	float headInc;
+	float tail; // Movimiento de la cola
+	float tailInc;
 
 }FRAME;
 
@@ -151,7 +154,9 @@ void saveFrame(void)
 	KeyFrame[FrameIndex].dogPosZ = dogPosZ;
 
 	KeyFrame[FrameIndex].rotDog = rotDog;
+	// 2. Se guarda las variables en el sistema
 	KeyFrame[FrameIndex].head = head;
+	KeyFrame[FrameIndex].tail = tail;
 
 
 	FrameIndex++;
@@ -165,7 +170,9 @@ void resetElements(void)
 	dogPosZ = KeyFrame[0].dogPosZ;
 
 	rotDog = KeyFrame[0].rotDog;
+	// 3. Se inicializa
 	head = KeyFrame[0].head;
+	tail = KeyFrame[0].tail;
 
 }
 void interpolation(void)
@@ -174,7 +181,10 @@ void interpolation(void)
 	KeyFrame[playIndex].incX = (KeyFrame[playIndex + 1].dogPosX - KeyFrame[playIndex].dogPosX) / i_max_steps;
 	KeyFrame[playIndex].incY = (KeyFrame[playIndex + 1].dogPosY - KeyFrame[playIndex].dogPosY) / i_max_steps;
 	KeyFrame[playIndex].incZ = (KeyFrame[playIndex + 1].dogPosZ - KeyFrame[playIndex].dogPosZ) / i_max_steps;
+	// 4. Calcular la interpolación de la variable
 	KeyFrame[playIndex].headInc = (KeyFrame[playIndex + 1].head - KeyFrame[playIndex].head) / i_max_steps;
+	KeyFrame[playIndex].tailInc = (KeyFrame[playIndex + 1].tail - KeyFrame[playIndex].tail) / i_max_steps;
+
 
 	KeyFrame[playIndex].rotDogInc = (KeyFrame[playIndex + 1].rotDog - KeyFrame[playIndex].rotDog) / i_max_steps;
 
@@ -260,8 +270,11 @@ int main()
 		KeyFrame[i].incZ = 0;
 		KeyFrame[i].rotDog = 0;
 		KeyFrame[i].rotDogInc = 0;
+		// 5. Inicializar en la estructura
 		KeyFrame[i].head = 0;
 		KeyFrame[i].headInc = 0;
+		KeyFrame[i].tail = 0;
+		KeyFrame[i].tailInc = 0;
 	}
 
 
@@ -499,6 +512,7 @@ void DoMovement()
 
 	// Dog Controls
 	
+	// 6. Agregar tecla para las partes del perro
 	// Cabeza
 	if (keys[GLFW_KEY_4])
 	{
@@ -507,6 +521,15 @@ void DoMovement()
 	if (keys[GLFW_KEY_5])
 	{
 		head -= rotSpeed;
+	}
+	// Cola
+	if (keys[GLFW_KEY_6])
+	{
+		tail += rotSpeed;
+	}
+	if (keys[GLFW_KEY_7])
+	{
+		tail -= rotSpeed;
 	}
 
 	if (keys[GLFW_KEY_2])
@@ -673,7 +696,10 @@ void Animation() {
 			dogPosX += KeyFrame[playIndex].incX;
 			dogPosY += KeyFrame[playIndex].incY;
 			dogPosZ += KeyFrame[playIndex].incZ;
+			// 7. Agregar la animación de cada parte del perro
 			head += KeyFrame[playIndex].headInc;
+			tail += KeyFrame[playIndex].tailInc;
+
 			rotDog += KeyFrame[playIndex].rotDogInc;
 
 			i_curr_steps++;
