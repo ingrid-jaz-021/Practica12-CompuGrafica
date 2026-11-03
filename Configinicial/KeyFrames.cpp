@@ -1,6 +1,6 @@
-// Previo #12
+// Práctica #12
 // Serrano Cuevas Ingrid Jazmín
-// Fecha de entrega: 2 de noviembre de 2026.
+// Fecha de entrega: 7 de noviembre de 2026.
 // 319213197
 
 #include <iostream>
@@ -117,6 +117,7 @@ float rotBR = 0.0f; // Pierna Trasera Derecha
 float head = 0.0f;
 float tail = 0.0f;
 float rotDogX = 0.0f; // Inclinación vertical del torso
+float rotDogZ = 0.0f; // Rotación lateral
 
 
 
@@ -151,6 +152,8 @@ typedef struct _frame {
 	float rotBRInc;
 	float rotDogX; // Inclinación del torso
 	float rotDogXInc;
+	float rotDogZ; // Rotación lateral
+	float rotDogZInc;
 
 }FRAME;
 
@@ -177,6 +180,7 @@ void saveFrame(void)
 	KeyFrame[FrameIndex].rotBL = rotBL;
 	KeyFrame[FrameIndex].rotBR = rotBR;
 	KeyFrame[FrameIndex].rotDogX = rotDogX;
+	KeyFrame[FrameIndex].rotDogZ = rotDogZ;
 
 	FrameIndex++;
 }
@@ -197,6 +201,7 @@ void resetElements(void)
 	rotBL = KeyFrame[0].rotBL;
 	rotBR = KeyFrame[0].rotBR;
 	rotDogX = KeyFrame[0].rotDogX;
+	rotDogZ = KeyFrame[0].rotDogZ;
 
 }
 void interpolation(void)
@@ -213,6 +218,7 @@ void interpolation(void)
 	KeyFrame[playIndex].rotBLInc = (KeyFrame[playIndex + 1].rotBL - KeyFrame[playIndex].rotBL) / i_max_steps;
 	KeyFrame[playIndex].rotBRInc = (KeyFrame[playIndex + 1].rotBR - KeyFrame[playIndex].rotBR) / i_max_steps;
 	KeyFrame[playIndex].rotDogXInc = (KeyFrame[playIndex + 1].rotDogX - KeyFrame[playIndex].rotDogX) / i_max_steps;
+	KeyFrame[playIndex].rotDogZInc = (KeyFrame[playIndex + 1].rotDogZ - KeyFrame[playIndex].rotDogZ) / i_max_steps;
 
 	KeyFrame[playIndex].rotDogInc = (KeyFrame[playIndex + 1].rotDog - KeyFrame[playIndex].rotDog) / i_max_steps;
 
@@ -313,6 +319,8 @@ int main()
 		KeyFrame[i].rotBRInc = 0;
 		KeyFrame[i].rotDogX = 0;
 		KeyFrame[i].rotDogXInc = 0;
+		KeyFrame[i].rotDogZ = 0;
+		KeyFrame[i].rotDogZInc = 0;
 	}
 
 
@@ -449,6 +457,8 @@ int main()
 		modelTemp = model = glm::rotate(model, glm::radians(rotDog), glm::vec3(0.0f, 1.0f, 0.0f));
 		// Rotación vertical (X) para inclinar todo el perro hacia atrás
 		modelTemp = model = glm::rotate(model, glm::radians(rotDogX), glm::vec3(1.0f, 0.0f, 0.0f));
+		// Rotación sobre el eje Z para rodar lateralmente
+		modelTemp = model = glm::rotate(model, glm::radians(rotDogZ), glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		DogBody.Draw(lightingShader);
 		//Head
@@ -625,6 +635,13 @@ void DoMovement()
 	{
 		dogPosY -= moveSpeed;
 	}
+	// Mover al perro en Z (rota)
+	if (keys[GLFW_KEY_O]) {
+		rotDogZ += rotSpeed;
+	}
+	if (keys[GLFW_KEY_P]) {
+		rotDogZ -= rotSpeed;
+	}
 
 	if (keys[GLFW_KEY_2])
 	{
@@ -798,6 +815,7 @@ void Animation() {
 			rotBL += KeyFrame[playIndex].rotBLInc;
 			rotBR += KeyFrame[playIndex].rotBRInc;
 			rotDogX += KeyFrame[playIndex].rotDogXInc;
+			rotDogZ += KeyFrame[playIndex].rotDogZInc;
 
 			rotDog += KeyFrame[playIndex].rotDogInc;
 
