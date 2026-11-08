@@ -6,6 +6,7 @@
 #include <iostream>
 #include <cmath>
 #include <fstream> // Generar archivo txt
+#include <iomanip> // Ocupa numeros decimales
 
 // GLEW
 #include <GL/glew.h>
@@ -36,6 +37,7 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 void MouseCallback(GLFWwindow *window, double xPos, double yPos);
 void DoMovement();
 void Animation();
+void cargarAnimacionTruco(void); // Animación Hacer el muerto
 
 // Window dimensions
 const GLuint WIDTH = 800, HEIGHT = 600;
@@ -225,6 +227,68 @@ void interpolation(void)
 
 }
 
+// Animación - Hacer el muerto
+void cargarAnimacionTruco(void)
+{
+	// Frame 0
+	KeyFrame[0].dogPosX = 0.000000f;
+	KeyFrame[0].dogPosY = 0.489983f;
+	KeyFrame[0].dogPosZ = 0.000000f;
+	KeyFrame[0].rotDog = 0.000000f;
+	KeyFrame[0].rotDogX = 0.000000f;
+	KeyFrame[0].rotDogZ = 0.000000f;
+	KeyFrame[0].head = 0.000000f;
+	KeyFrame[0].tail = 0.000000f;
+	KeyFrame[0].rotFL = 0.000000f;
+	KeyFrame[0].rotFR = 0.000000f;
+	KeyFrame[0].rotBL = 0.000000f;
+	KeyFrame[0].rotBR = 0.000000f;
+
+	// Frame 1
+	KeyFrame[1].dogPosX = 0.000000f;
+	KeyFrame[1].dogPosY = 0.193787f;
+	KeyFrame[1].dogPosZ = 0.000000f;
+	KeyFrame[1].rotDog = 0.000000f;
+	KeyFrame[1].rotDogX = 0.000000f;
+	KeyFrame[1].rotDogZ = 0.000000f;
+	KeyFrame[1].head = 0.000000f;
+	KeyFrame[1].tail = 0.000000f;
+	KeyFrame[1].rotFL = 0.000000f;
+	KeyFrame[1].rotFR = 0.000000f;
+	KeyFrame[1].rotBL = 0.000000f;
+	KeyFrame[1].rotBR = 0.000000f;
+
+	// Frame 2
+	KeyFrame[2].dogPosX = 0.000000f;
+	KeyFrame[2].dogPosY = 0.193787f;
+	KeyFrame[2].dogPosZ = -0.573303f;
+	KeyFrame[2].rotDog = 0.000000f;
+	KeyFrame[2].rotDogX = 0.000000f;
+	KeyFrame[2].rotDogZ = 0.000000f;
+	KeyFrame[2].head = 0.000000f;
+	KeyFrame[2].tail = 0.000000f;
+	KeyFrame[2].rotFL = 0.000000f;
+	KeyFrame[2].rotFR = 0.000000f;
+	KeyFrame[2].rotBL = 0.000000f;
+	KeyFrame[2].rotBR = 0.000000f;
+
+	// Frame 3
+	KeyFrame[3].dogPosX = 0.000000f;
+	KeyFrame[3].dogPosY = 0.193787f;
+	KeyFrame[3].dogPosZ = 0.028961f;
+	KeyFrame[3].rotDog = 0.000000f;
+	KeyFrame[3].rotDogX = 0.000000f;
+	KeyFrame[3].rotDogZ = 0.000000f;
+	KeyFrame[3].head = 0.000000f;
+	KeyFrame[3].tail = 0.000000f;
+	KeyFrame[3].rotFL = 0.000000f;
+	KeyFrame[3].rotFR = 0.000000f;
+	KeyFrame[3].rotBL = 0.000000f;
+	KeyFrame[3].rotBR = 0.000000f;
+
+	FrameIndex = 4;
+}
+
 
 
 // Deltatime
@@ -237,6 +301,9 @@ void exportarAnimacion()
 	std::ofstream archivo("AnimacionGuardada.txt");
 	if (archivo.is_open())
 	{
+		// Obliga al archivo a imprimir el punto decimal y 6 digitos
+		archivo << std::fixed << std::setprecision(6);
+
 		archivo << "void cargarAnimacionTruco(void)\n{\n";
 		for (int i = 0; i < FrameIndex; i++)
 		{
@@ -763,6 +830,21 @@ void DoMovement()
 // Is called whenever a key is pressed/released via GLFW
 void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode)
 {
+	if (keys[GLFW_KEY_M])
+	{
+		// 1. Carga los valores hardcodeados en el arreglo KeyFrame
+		cargarAnimacionTruco();
+
+		// 2. Inicia la animación de la misma forma que lo hace la tecla L
+		if (play == false && (FrameIndex > 1))
+		{
+			resetElements();
+			interpolation();
+			play = true;
+			playIndex = 0;
+			i_curr_steps = 0;
+		}
+	}
 
 	if (keys[GLFW_KEY_L])
 	{
