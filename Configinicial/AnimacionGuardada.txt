@@ -2,7 +2,7 @@ void cargarAnimacionTruco(void)
 {
     // Frame 0
     KeyFrame[0].dogPosX = 0.000000f;
-    KeyFrame[0].dogPosY = 0.489983f;
+    KeyFrame[0].dogPosY = 0.000000f;
     KeyFrame[0].dogPosZ = 0.000000f;
     KeyFrame[0].rotDog = 0.000000f;
     KeyFrame[0].rotDogX = 0.000000f;
@@ -16,8 +16,8 @@ void cargarAnimacionTruco(void)
 
     // Frame 1
     KeyFrame[1].dogPosX = 0.000000f;
-    KeyFrame[1].dogPosY = 0.193787f;
-    KeyFrame[1].dogPosZ = 0.000000f;
+    KeyFrame[1].dogPosY = 0.000000f;
+    KeyFrame[1].dogPosZ = -0.151777f;
     KeyFrame[1].rotDog = 0.000000f;
     KeyFrame[1].rotDogX = 0.000000f;
     KeyFrame[1].rotDogZ = 0.000000f;
@@ -30,31 +30,101 @@ void cargarAnimacionTruco(void)
 
     // Frame 2
     KeyFrame[2].dogPosX = 0.000000f;
-    KeyFrame[2].dogPosY = 0.193787f;
-    KeyFrame[2].dogPosZ = -0.573303f;
+    KeyFrame[2].dogPosY = -0.082291f;
+    KeyFrame[2].dogPosZ = -0.151777f;
     KeyFrame[2].rotDog = 0.000000f;
-    KeyFrame[2].rotDogX = 0.000000f;
+    KeyFrame[2].rotDogX = -32.653236f;
     KeyFrame[2].rotDogZ = 0.000000f;
     KeyFrame[2].head = 0.000000f;
     KeyFrame[2].tail = 0.000000f;
     KeyFrame[2].rotFL = 0.000000f;
     KeyFrame[2].rotFR = 0.000000f;
-    KeyFrame[2].rotBL = 0.000000f;
-    KeyFrame[2].rotBR = 0.000000f;
+    KeyFrame[2].rotBL = -47.835159f;
+    KeyFrame[2].rotBR = 42.728424f;
 
     // Frame 3
     KeyFrame[3].dogPosX = 0.000000f;
-    KeyFrame[3].dogPosY = 0.193787f;
-    KeyFrame[3].dogPosZ = 0.028961f;
+    KeyFrame[3].dogPosY = -0.082291f;
+    KeyFrame[3].dogPosZ = -0.151777f;
     KeyFrame[3].rotDog = 0.000000f;
-    KeyFrame[3].rotDogX = 0.000000f;
+    KeyFrame[3].rotDogX = -32.653236f;
     KeyFrame[3].rotDogZ = 0.000000f;
-    KeyFrame[3].head = 0.000000f;
-    KeyFrame[3].tail = 0.000000f;
-    KeyFrame[3].rotFL = 0.000000f;
-    KeyFrame[3].rotFR = 0.000000f;
-    KeyFrame[3].rotBL = 0.000000f;
-    KeyFrame[3].rotBR = 0.000000f;
+    KeyFrame[3].head = 35.908127f;
+    KeyFrame[3].tail = 30.193710f;
+    KeyFrame[3].rotFL = 0.713158f;
+    KeyFrame[3].rotFR = -64.004135f;
+    KeyFrame[3].rotBL = -47.835159f;
+    KeyFrame[3].rotBR = 42.728424f;
 
-    FrameIndex = 4;
+    // Frame 4
+    KeyFrame[4].dogPosX = 0.000000f;
+    KeyFrame[4].dogPosY = -0.082291f;
+    KeyFrame[4].dogPosZ = -0.151777f;
+    KeyFrame[4].rotDog = 0.000000f;
+    KeyFrame[4].rotDogX = -32.653236f;
+    KeyFrame[4].rotDogZ = 0.000000f;
+    KeyFrame[4].head = -28.035355f;
+    KeyFrame[4].tail = -39.006042f;
+    KeyFrame[4].rotFL = 0.713158f;
+    KeyFrame[4].rotFR = 3.117371f;
+    KeyFrame[4].rotBL = -47.835159f;
+    KeyFrame[4].rotBR = 42.728424f;
+
+    // Frame 5
+    KeyFrame[5].dogPosX = 0.000000f;
+    KeyFrame[5].dogPosY = -0.082291f;
+    KeyFrame[5].dogPosZ = -0.151777f;
+    KeyFrame[5].rotDog = 0.000000f;
+    KeyFrame[5].rotDogX = -32.653236f;
+    KeyFrame[5].rotDogZ = 0.000000f;
+    KeyFrame[5].head = -11.402512f;
+    KeyFrame[5].tail = -14.337540f;
+    KeyFrame[5].rotFL = 0.713158f;
+    KeyFrame[5].rotFR = 3.117371f;
+    KeyFrame[5].rotBL = -47.835159f;
+    KeyFrame[5].rotBR = 42.728424f;
+
+    // Frame 6
+    KeyFrame[6].dogPosX = 0.000000f;
+    KeyFrame[6].dogPosY = -0.178207f;
+    KeyFrame[6].dogPosZ = -0.151777f;
+    KeyFrame[6].rotDog = 0.000000f;
+    KeyFrame[6].rotDogX = 6.039238f;
+    KeyFrame[6].rotDogZ = 79.691696f;
+    KeyFrame[6].head = -11.402512f;
+    KeyFrame[6].tail = -14.337540f;
+    KeyFrame[6].rotFL = 0.713158f;
+    KeyFrame[6].rotFR = 3.117371f;
+    KeyFrame[6].rotBL = -47.835159f;
+    KeyFrame[6].rotBR = 42.728424f;
+
+    // Frame 7
+    KeyFrame[7].dogPosX = -0.215057f;
+    KeyFrame[7].dogPosY = -0.124588f;
+    KeyFrame[7].dogPosZ = -0.151777f;
+    KeyFrame[7].rotDog = 0.000000f;
+    KeyFrame[7].rotDogX = 6.039238f;
+    KeyFrame[7].rotDogZ = 172.971725f;
+    KeyFrame[7].head = 6.288528f;
+    KeyFrame[7].tail = 1.578903f;
+    KeyFrame[7].rotFL = 4.612541f;
+    KeyFrame[7].rotFR = 3.117371f;
+    KeyFrame[7].rotBL = -0.272751f;
+    KeyFrame[7].rotBR = 12.158203f;
+
+    // Frame 8
+    KeyFrame[8].dogPosX = -0.215057f;
+    KeyFrame[8].dogPosY = -0.124588f;
+    KeyFrame[8].dogPosZ = -0.151777f;
+    KeyFrame[8].rotDog = 0.000000f;
+    KeyFrame[8].rotDogX = 6.039238f;
+    KeyFrame[8].rotDogZ = 172.971725f;
+    KeyFrame[8].head = -32.505417f;
+    KeyFrame[8].tail = 1.578903f;
+    KeyFrame[8].rotFL = 36.440849f;
+    KeyFrame[8].rotFR = -29.385376f;
+    KeyFrame[8].rotBL = -0.272751f;
+    KeyFrame[8].rotBR = 12.158203f;
+
+    FrameIndex = 9;
 }
