@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <fstream> // Generar archivo txt
 
 // GLEW
 #include <GL/glew.h>
@@ -229,6 +230,40 @@ void interpolation(void)
 // Deltatime
 GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
 GLfloat lastFrame = 0.0f;  	// Time of last frame
+
+// Exporta los frames en un archivo txt
+void exportarAnimacion()
+{
+	std::ofstream archivo("AnimacionGuardada.txt");
+	if (archivo.is_open())
+	{
+		archivo << "void cargarAnimacionTruco(void)\n{\n";
+		for (int i = 0; i < FrameIndex; i++)
+		{
+			archivo << "    // Frame " << i << "\n";
+			archivo << "    KeyFrame[" << i << "].dogPosX = " << KeyFrame[i].dogPosX << "f;\n";
+			archivo << "    KeyFrame[" << i << "].dogPosY = " << KeyFrame[i].dogPosY << "f;\n";
+			archivo << "    KeyFrame[" << i << "].dogPosZ = " << KeyFrame[i].dogPosZ << "f;\n";
+			archivo << "    KeyFrame[" << i << "].rotDog = " << KeyFrame[i].rotDog << "f;\n";
+			archivo << "    KeyFrame[" << i << "].rotDogX = " << KeyFrame[i].rotDogX << "f;\n";
+			archivo << "    KeyFrame[" << i << "].rotDogZ = " << KeyFrame[i].rotDogZ << "f;\n"; 
+			archivo << "    KeyFrame[" << i << "].head = " << KeyFrame[i].head << "f;\n";
+			archivo << "    KeyFrame[" << i << "].tail = " << KeyFrame[i].tail << "f;\n";
+			archivo << "    KeyFrame[" << i << "].rotFL = " << KeyFrame[i].rotFL << "f;\n";
+			archivo << "    KeyFrame[" << i << "].rotFR = " << KeyFrame[i].rotFR << "f;\n";
+			archivo << "    KeyFrame[" << i << "].rotBL = " << KeyFrame[i].rotBL << "f;\n";
+			archivo << "    KeyFrame[" << i << "].rotBR = " << KeyFrame[i].rotBR << "f;\n\n";
+		}
+		archivo << "    FrameIndex = " << FrameIndex << ";\n";
+		archivo << "}\n";
+		archivo.close();
+		printf("¡Codigo de animacion exportado a AnimacionGuardada.txt!\n");
+	}
+	else
+	{
+		printf("Error al crear el archivo.\n");
+	}
+}
 
 int main()
 {
@@ -642,6 +677,18 @@ void DoMovement()
 	if (keys[GLFW_KEY_P]) {
 		rotDogZ -= rotSpeed;
 	}
+	// Exportar archivo
+	if (keys[GLFW_KEY_E])
+	{
+		if (FrameIndex > 1)
+		{
+			exportarAnimacion();
+		}
+		else
+		{
+			printf("No hay suficientes frames para exportar.\n");
+		}
+	}
 
 	if (keys[GLFW_KEY_2])
 	{
@@ -745,7 +792,6 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 		}
 
 	}
-
 
 
 	if (GLFW_KEY_ESCAPE == key && GLFW_PRESS == action)
